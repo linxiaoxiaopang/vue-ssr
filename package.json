@@ -1,0 +1,44 @@
+{
+  "name": "vue-ssr",
+  "version": "1.0.0",
+  "description": "vue-ssr",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "dev:client": "webpack --config ./webpack.config.client.js",
+    "dev:serve": "webpack --config ./webpack.config.serve.js",
+    "serve": "nodemon server/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linxiaoxiaopang/vue-ssr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linxiaoxiaopang/vue-ssr/issues"
+  },
+  "homepage": "https://github.com/linxiaoxiaopang/vue-ssr#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.2.0",
+    "html-webpack-plugin": "^4.5.2",
+    "nodemon": "^3.1.4",
+    "vue-loader": "^15.9.8",
+    "vue-server-renderer": "^2.6.13",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.6.13",
+    "webpack": "^4.46.0",
+    "webpack-dev-server": "^3.11.3",
+    "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "vue": "^2.6.13",
+    "vue-server-renderer": "^2.7.16"
+  }
+}
