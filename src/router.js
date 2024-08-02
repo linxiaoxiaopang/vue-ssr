@@ -1,7 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
 import index from './views/index'
-import a from './views/a'
 import b from './views/b'
 
 Vue.use(Router)
@@ -15,7 +14,7 @@ export default function createRouter() {
         path: '/'
       },
       {
-        component: a,
+        component: ()=> import('./views/a'),
         path: '/a'
       },
       {

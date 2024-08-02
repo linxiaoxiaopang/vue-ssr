@@ -2,19 +2,21 @@ const path = require('path')
 const fs = require('fs')
 const express = require('express')
 const server = express()
-const renderer = require('vue-server-renderer').createRenderer({
-  template: fs.readFileSync(path.resolve(__dirname, '../dist/client.html'), 'utf-8')
+const template = fs.readFileSync(path.resolve(__dirname, './index.ssr.html'), 'utf-8')
+const { createBundleRenderer } = require('vue-server-renderer')
+const serverBundle = require(path.resolve(__dirname, '../dist/vue-ssr-server-bundle.json'))
+const clientManifest = require(path.resolve(__dirname, '../dist/vue-ssr-client-manifest.json'))
+const renderer = createBundleRenderer(serverBundle, {
+  runInNewContext: false, // 推荐
+  template,
+  clientManifest
 })
+server.use(express.static(path.join(__dirname, '../dist'), {index: false}))
 
-server.use(express.static(path.join(__dirname, '../dist')))
 
-const { default: createApp } = require(path.resolve(__dirname, '../dist/serve'))
 server.get('*', async  (req, res) => {
   const context = { url: req.url }
-  const app = await createApp(context).catch((err) => {
-    res.status(err.code).end('error page')
-  })
-  renderer.renderToString(app, context,(err, html) => {
+  renderer.renderToString(context,(err, html) => {
     if (err) {
       if (err.code === 404) {
         res.status(404).end('Page not found')
