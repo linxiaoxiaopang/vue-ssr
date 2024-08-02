@@ -22,7 +22,6 @@ server.get('*', async  (req, res) => {
         res.status(500).end('Internal Server Error')
       }
     } else {
-      console.log('html', html)
       res.end(html)
     }
   })

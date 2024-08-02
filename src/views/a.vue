@@ -4,6 +4,7 @@
     <div class="msg">
       {{ $store.state.message }}
     </div>
+    <button @click="changeMessage">changeMessage</button>
   </div>
 </template>
 
@@ -12,6 +13,12 @@
 export default {
   asyncData({ store }) {
     return store.dispatch('GetMessage', 'i am a')
+  },
+
+  methods: {
+    changeMessage() {
+      this.$store.dispatch('GetMessage', 'i spa am a')
+    }
   }
 }
 
