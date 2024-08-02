@@ -1,10 +1,10 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin")
 const {VueLoaderPlugin} = require('vue-loader')
 
 module.exports = {
     mode: 'development',
+
     output: {
-        filename: "[hash:5].[name].js"
+        filename: "[name].js"
     },
     resolve: {
         extensions: ['.js', '.json', '.vue'],

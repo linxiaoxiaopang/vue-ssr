@@ -1,25 +1,31 @@
-const Vue = require('vue')
-const server = require('express')()
-const renderer = require('vue-server-renderer').createRenderer()
-const {default: createApp} = require('../dist/8093b.serve')
-console.log('createApp', createApp)
-server.get('*', (req, res) => {
-    const app = createApp()
-
-    renderer.renderToString(app, (err, html) => {
-        if (err) {
-            res.status(500).end('Internal Server Error')
-            return
-        }
-        res.end(`
-      <!DOCTYPE html>
-      <html lang="en">
-         <meta charset="UTF-8">
-        <head><title>Hello</title></head>
-        <body>${html}</body>
-      </html>
-    `)
-    })
+const path = require('path')
+const fs = require('fs')
+const express = require('express')
+const server = express()
+const renderer = require('vue-server-renderer').createRenderer({
+  template: fs.readFileSync(path.resolve(__dirname, '../dist/client.html'), 'utf-8')
 })
 
-server.listen(3001)
+server.use(express.static(path.join(__dirname, '../dist')))
+
+const { default: createApp } = require(path.resolve(__dirname, '../dist/serve'))
+server.get('*', async  (req, res) => {
+  const context = { url: req.url }
+  const app = await createApp(context).catch((err) => {
+    res.status(err.code).end('error page')
+  })
+  renderer.renderToString(app, context,(err, html) => {
+    if (err) {
+      if (err.code === 404) {
+        res.status(404).end('Page not found')
+      } else {
+        res.status(500).end('Internal Server Error')
+      }
+    } else {
+      console.log('html', html)
+      res.end(html)
+    }
+  })
+})
+
+server.listen(3000)

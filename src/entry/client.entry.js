@@ -1,5 +1,9 @@
-import createApp from '../utils'
+import createApp from '../main'
 
-createApp({
-    el: '#app'
+const { store } = createApp({
+  el: '#app'
 })
+
+if (window.__INITIAL_STATE__) {
+  store.replaceState(window.__INITIAL_STATE__)
+}
